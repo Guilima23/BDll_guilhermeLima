@@ -2,7 +2,7 @@ drop database if exists Richimond;
 create database Richimond;
 USE Richimond;
 
-
+/** Criando tabelas **/
 
 CREATE TABLE Comissao_tecnica (
     BID INT PRIMARY KEY AUTO_INCREMENT,
@@ -29,7 +29,7 @@ CREATE TABLE Time (
 
 CREATE TABLE Jogadores (
     BID INT PRIMARY KEY AUTO_INCREMENT,
-    Nome VARCHAR(100),
+    Nome_jogador VARCHAR(100),
     Data_nascimento DATE,
     Pais VARCHAR(50),
     Posicao VARCHAR(50),
@@ -109,7 +109,7 @@ CREATE TABLE Partida (
     REFERENCES Campeonato(Num_edicao)
 );
 
-
+/** Inserindo dados **/
 
 INSERT INTO Comissao_tecnica
 (Nomes,Nacionalidades,Idades,Encargos)
@@ -129,16 +129,16 @@ VALUES
 
 
 INSERT INTO Jogadores
-(Nome,Data_nascimento,Pais,Posicao,Altura_cm,Numero_camisa,Valor_transferencia)
+(Nome_jogador,Data_nascimento,Pais,Posicao,Altura_cm,Numero_camisa,Valor_transferencia)
 VALUES
-("Thierry Zoreaux","1993-10-11","Canada","Goleiro",188,1,16000000),
-("Ash Dixon","1996-06-04","Inglaterra","Lateral-direito",170,2,25000000),
-("Isaac McAdoo","1996-06-20","Inglaterra","Zagueiro",184,3,45000000),
-("Jan Maas","1992-09-01","Holanda","Zagueiro",193,4,2000000),
-("George Goodman","1992-07-08","Inglaterra","Lateral-esquerdo",180,5,26000000),
-("Samuel Obisanya","2000-01-11","Nigeria","Meia-direita",185,24,85000000),
-("Moe Bumbercatch","1996-08-14","Suica","Segundo-volante",174,8,4000000),
-("Colin Hughes","1995-08-21","Gales","Meia-central",178,6,28000000),
+("Thierry Zoreaux","1993-10-11","Canada","Goleiro",188,1,16000000,8061970),
+("Ash Dixon","1996-06-04","Inglaterra","Lateral-direito",170,2,25000000,8061970),
+("Isaac McAdoo","1996-06-20","Inglaterra","Zagueiro",184,3,45000000,8061970),
+("Jan Maas","1992-09-01","Holanda","Zagueiro",193,4,2000000,8061970),
+("George Goodman","1992-07-08","Inglaterra","Lateral-esquerdo",180,5,26000000,8061970),
+("Samuel Obisanya","2000-01-11","Nigeria","Meia-direita",185,24,85000000,8061970),
+("Moe Bumbercatch","1996-08-14","Suica","Segundo-volante",174,8,4000000,8061970),
+("Colin Hughes","1995-08-21","Gales","Meia-central",178,6,28000000,8061970),
 ("Richard Montlaur","1995-07-14","Franca","Meia-esquerda",176,13,2000000,8061970),
 ("Dani Rojas","1995-09-16","Mexico","Centroavante",183,11,8000000,8061970),
 ("Jamie Tartt","1997-10-20","Inglaterra","Ponta-de-lança",178,9,18000000,8061970),
@@ -225,7 +225,7 @@ VALUES
 (38,5,4,1,3,26,"23/24");
 
 
-
+/** Demonstrando dados**/
 SELECT * FROM Comissao_tecnica;
 SELECT * FROM Time;
 SELECT * FROM Jogadores;
