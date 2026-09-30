@@ -258,3 +258,100 @@ RIGHT JOIN Cardápio car ON p.Cardápio = car.ID_produto;
     car.Nome AS Produto
 FROM Cliente c
 CROSS JOIN Cardápio car;
+-- =========================================================
+-- QUESTÃO 8: TOTAL DE VENDAS POR DIA
+-- =========================================================
+
+SELECT 
+    pg.Data,
+    COUNT(p.ID_pedido) AS Quantidade_Vendas,
+    SUM(pg.Valor) AS Total_Vendas
+FROM Pagamento pg
+INNER JOIN Pedido p ON pg.ID_pagamento = p.Pagamento
+GROUP BY pg.Data
+ORDER BY pg.Data;
+
+
+-- =========================================================
+-- QUESTÃO 9: VENDEDOR COM MAIOR FATURAMENTO
+-- =========================================================
+
+SELECT 
+    f.Nome AS Funcionario,
+    SUM(pg.Valor) AS Faturamento,
+    f.Salario,
+    ROUND(SUM(pg.Valor) * 0.10, 2) AS Gorjeta,
+    ROUND(f.Salario + (SUM(pg.Valor) * 0.10), 2) AS Salario_Total
+FROM Funcionarios f
+INNER JOIN Pedido p ON f.id_funcionario = p.Funcionario
+INNER JOIN Pagamento pg ON p.Pagamento = pg.ID_pagamento
+GROUP BY f.id_funcionario, f.Nome, f.Salario
+ORDER BY Faturamento DESC
+LIMIT 3;
+
+
+-- =========================================================
+-- QUESTÃO 10: PRODUTO MAIS VENDIDO
+-- =========================================================
+
+SELECT 
+    c.Nome AS Produto,
+    SUM(p.Quantidade) AS Quantidade_Vendida
+FROM Pedido p
+INNER JOIN Cardapio c ON p.Cardapio = c.ID_produto
+GROUP BY c.ID_produto, c.Nome
+ORDER BY Quantidade_Vendida DESC
+LIMIT 3;
+
+
+-- =========================================================
+-- CONSULTA COMPLETA
+-- =========================================================
+
+SELECT 
+    p.ID_pedido,
+    c.Nome AS Cliente,
+    car.Nome AS Produto,
+    p.Quantidade,
+    f.Nome AS Funcionario,
+    f.Salario,
+    ROUND(pg.Valor * 0.10, 2) AS Gorjeta_Pedido,
+    pg.Valor,
+    pg.Forma_Pagamento,
+    pg.Data,
+    pg.Status
+FROM Pedido p
+INNER JOIN Cliente c ON p.Comanda = c.ID_cliente
+INNER JOIN Cardapio car ON p.Cardapio = car.ID_produto
+INNER JOIN Funcionarios f ON p.Funcionario = f.id_funcionario
+INNER JOIN Pagamento pg ON p.Pagamento = pg.ID_pagamento
+ORDER BY p.ID_pedido;
+
+=========================================================
+-- MOSTRAR FUNCIONÁRIOS COM SALÁRIO + GORJETA
+-- =========================================================
+
+SELECT 
+    f.Nome AS Funcionario,
+    f.Funcoes,
+    f.Salario,
+    ROUND(SUM(pg.Valor) * 0.10, 2) AS Gorjeta,
+    ROUND(f.Salario + (SUM(pg.Valor) * 0.10), 2) AS Salario_Total,
+    COUNT(p.ID_pedido) AS Quanti_vendas,
+    SUM(pg.Valor) AS Faturamento_funcionarios
+FROM Funcionarios f
+INNER JOIN Pedido p ON f.id_funcionario = p.Funcionario
+INNER JOIN Pagamento pg ON p.Pagamento = pg.ID_pagamento
+GROUP BY f.id_funcionario, f.Nome, f.Funcoes, f.Salario
+ORDER BY Salario_Total DESC;
+
+=========================================================
+-- APLICAÇÃO DO ROLLBACK E DELETE (ATIVIDADE)
+-- =========================================================
+-- Inicia a transação controlada
+START TRANSACTION;
+-- Deleção do registro
+DELETE FROM Cliente WHERE ID_cliente = 1;
+-- Desfaz o comando DELETE aplicado
+ROLLBACK;
+
